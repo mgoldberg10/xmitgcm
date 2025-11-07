@@ -952,7 +952,12 @@ class BaseLLCModel:
                                             data['RF'][sl],
                                             _VAR_METADATA[zv]['attrs'])
 
-        ds = ds.update(variables)
+        # Save vars as dataArray instead of Variables, avoid dim mismatch error
+        vars_da = {
+            name: xr.DataArray(v.data, dims=v.dims, attrs=v.attrs)
+            for name, v in variables.items()
+        }
+        ds = ds.assign(**vars_da)
 
         if grid_vars_to_coords:
             ds = ds.set_coords(gridlist)
