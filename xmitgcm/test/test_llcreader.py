@@ -207,11 +207,12 @@ def test_ecco_portal_latlon(llc_global_model):
 
 
 ########### ASTE Portal Tests ##################################################
-#@pytest.fixture(scope='module', params=['portal','sverdrup'])
-@pytest.fixture(scope='module', params=['sverdrup'])
+@pytest.fixture(scope='module', params=['aws', 'tacc'])
 def aste_model(request):
-    if request.param == 'portal':
-        return llcreader.CRIOSPortalASTE270Model()
+    if request.param == 'aws':
+        return llcreader.CRIOSAWSPortalASTE270Model()
+    elif request.param == 'tacc':
+        return llcreader.CRIOSTACCPortalASTE270Model()
     else:
         if not os.path.exists('/scratch2/heimbach'):
             pytest.skip("Not on Sverdrup")
@@ -234,7 +235,6 @@ def test_aste_portal_faces(aste_model):
         if isinstance(ds_faces[fld].data,dsa):
             assert len(ds_faces[fld].data.chunks)==1
             assert (len(ds_faces[fld]),)==ds_faces[fld].data.chunks[0]
-
 
 def test_aste_portal_iterations(aste_model):
     with pytest.warns(RuntimeWarning, match=r"Some requested iterations may not exist, you may need to change 'iters'"):
@@ -268,4 +268,24 @@ def test_aste_portal_latlon(aste_model):
     with pytest.raises(TypeError):
         ds_ll = aste_model.get_dataset(iters=iters,type='latlon')
 
+def test_aste_tacc_snapshots(aste_model):
+    if not isinstance(aste_model, llcreader.CRIOSTACCPortalASTE270Model):
+        pytest.skip("Only testing TACC Portal snapshot variables here")
 
+    iters = aste_model.iters[0:2]
+    varnames = ['THETADR_snap', 'ETAN_snap']
+    ds = aste_model.get_dataset(varnames=varnames, iters=iters)
+
+    for vn in varnames:
+        assert vn in ds.data_vars, f"{vn} not in dataset"
+
+    nx = aste_model.nx
+    assert ds.THETADR_snap.sizes == {'time': 2, 'k': 50, 'face': 6, 'j': 270, 'i': 270}
+    assert ds.ETAN_snap.sizes == {'time': 2, 'face': 6, 'j': 270, 'i': 270}
+
+    for vn in varnames:
+        val = ds[vn].isel(time=0).isel(i=0,j=0)
+        if 'k' in val.coords:
+            val = val.isel(k=0)
+        val = val.data.compute() if isinstance(val.data, dsa) else val.data
+        assert val is not None

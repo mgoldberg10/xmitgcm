@@ -757,7 +757,40 @@ package_state_variables = {
         standard_name="ADJvice",
         long_name='dJ/dvice: Sensitivity to meridional ice drift',
         mate='ADJuice',
-        units='dJ/(m s-1)'))
+        units='dJ/(m s-1)')),
+    # snapshots
+    'THETADR_snap': dict(dims=['k', 'j', 'i'], attrs=dict(
+        standard_name="THETADR_snap",
+        long_name='snapshot depth-weighted potential temperature',
+        units='degC m')),
+    'SALTDR_snap': dict(dims=['k', 'j', 'i'], attrs=dict(
+        standard_name="SALTDR_snap",
+        long_name='snapshot depth-weighted salinity',
+        units='g kg-1 m')),
+    'ETAN_snap': dict(dims=['j', 'i'], attrs=dict(
+        standard_name="ETAN_snap",
+        long_name='snapshot sea surface height anomaly',
+        units='m')),
+    'SIarea_snap': dict(dims=['j', 'i'], attrs=dict(
+        standard_name="SIarea_snap",
+        long_name='snapshot sea ice fractional area',
+        units=' ')),
+    'SIheff_snap': dict(dims=['j', 'i'], attrs=dict(
+        standard_name="SIheff_snap",
+        long_name='snapshot effective sea ice thickness',
+        units='m')),
+    'SIhsnow_snap': dict(dims=['j', 'i'], attrs=dict(
+        standard_name="SIhsnow_snap",
+        long_name='snapshot snow thickness on sea ice',
+        units='m')),
+    'sIceLoad_snap': dict(dims=['j', 'i'], attrs=dict(
+        standard_name="SIceLoad_snap",
+        long_name='snapshot sea ice load (ice + snow)',
+        units='kg m-2')),
+    'PHIBOT_snap': dict(dims=['j', 'i'], attrs=dict(
+        standard_name="PHIBOT_snap",
+        long_name='snapshot bottom pressue',
+        units='m2 s-2')),
 }
 
 extra_grid_variables = OrderedDict(
