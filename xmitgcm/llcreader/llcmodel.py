@@ -472,7 +472,7 @@ def _get_facet_chunk(store, varname, iternum, nfacet, klevels, nx, nz, nfaces,
         mykey = nx if domain == 'global' else f'{domain}_{nx}'
         index = all_index_data[mykey][point]
         zgroup = store.open_mask_group()
-        mask = zgroup['mask_' + point].astype('bool')
+        mask = zgroup['mask_' + point][:].astype('bool')
     else:
         index = None
         mask = None
@@ -509,7 +509,7 @@ def _get_facet_chunk(store, varname, iternum, nfacet, klevels, nx, nz, nfaces,
 
         assert len(data) == (end - start)
 
-        if mask:
+        if mask is not None:
             mask_level = mask[k]
             mask_facets = _faces_to_facets(mask_level,nfaces)
             this_mask = mask_facets[nfacet]
