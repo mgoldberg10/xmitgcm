@@ -56,8 +56,8 @@ class LLC2160Model(BaseLLCModel):
                      'RC','RF','RhoRef','rLowC','rLowS','rLowW',
                      'rSurfC','rSurfS','rSurfW','XC','YC',
                      'RAZ','XG','YG','DXV','DYU']
-    mask_override = {'oceTAUX': 'c', 'oceTAUY': 'c',
-                     'SIuice':  'c', 'SIvice':  'c'}
+    mask_override = {'oceTAUX': 'c', 'oceTAUY': 'c'}
+
 
 class LLC4320Model(BaseLLCModel):
     nx = 4320
@@ -80,8 +80,7 @@ class LLC4320Model(BaseLLCModel):
                      'hFacC','hFacS','hFacW','PHrefC','PHrefF',
                      'RAC','RAS','RAW','RC','RF',
                      'RhoRef','XC','YC','RAZ','XG','YG','DXV','DYU']
-    mask_override = {'oceTAUX': 'c', 'oceTAUY': 'c',
-                     'SIuice':  'c', 'SIvice':  'c'}
+    mask_override = {'oceTAUX': 'c', 'oceTAUY': 'c'}
 
 class ASTE270Model(BaseLLCModel):
     nface = 6
@@ -145,7 +144,10 @@ class ASTE270Model(BaseLLCModel):
                 'TFLUX',    'THETA',    'TRELAX',   'UVELMASS', 'VVELMASS',
                 'WSLTMASS', 'WTHMASS',  'WVELMASS', 'oceFWflx', 'oceQnet',
                 'oceQsw',   'oceSPDep', 'oceSPflx', 'oceSPtnd', 'oceSflux',
-                'oceTAUX',  'oceTAUY',  'sIceLoad']
+                'oceTAUX',  'oceTAUY',  'sIceLoad',
+                'THETADR_snap', 'SALTDR_snap', 'ETAN_snap', 'SIarea_snap',
+                'SIheff_snap', 'SIhsnow_snap', 'SIceLoad_snap', 'PHIBOT_snap'
+                ]
 
     grid_varnames = ['AngleCS', 'AngleSN',   'DRC',       'DRF',       'DXC',
                      'DXG',     'DYC',       'DYG',       'Depth',     'PHrefC',
@@ -187,17 +189,20 @@ class ASTE270Model(BaseLLCModel):
            "oceFWflx":">f8", "oceQnet":">f8", "oceQsw":">f8",
            "oceSPDep":">f4", "oceSPflx":">f8", "oceSPtnd":">f8",
            "oceSflux":">f8", "oceTAUX":">f4", "oceTAUY":">f4",
-           "sIceLoad":">f4"}
+           "sIceLoad":">f4", "THETADR_snap":">f8", "oceSflux":">f8",
+           "oceTAUX":">f4", "oceTAUY":">f4", "sIceLoad":">f4",
+           "THETADR_snap":">f8", "SALTDR_snap":">f8", "ETAN_snap":">f8",
+           "SIarea_snap":">f8", "SIheff_snap":">f8", "SIhsnow_snap":">f8",
+           "SIceLoad_snap":">f8", "PHIBOT_snap":">f8"
+           }
 
 class ECCOPortalLLC2160Model(LLC2160Model):
 
     def __init__(self):
         fs = _make_http_filesystem()
-#        base_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_2160/compressed'
-#        grid_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_2160/grid'
+        base_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_2160/compressed'
+        grid_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_2160/grid'
         mask_path = 'https://storage.googleapis.com/pangeo-ecco/llc/masks/llc_2160_masks.zarr/'
-        base_path = None
-        grid_path = None
         store = stores.NestedStore(fs, base_path=base_path, mask_path=mask_path,
                                    grid_path=grid_path, shrunk=True, join_char='/')
         super(ECCOPortalLLC2160Model, self).__init__(store)
@@ -207,11 +212,9 @@ class ECCOPortalLLC4320Model(LLC4320Model):
 
     def __init__(self):
         fs = _make_http_filesystem()
-#        base_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_4320/compressed'
-#        grid_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_4320/grid'
+        base_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_4320/compressed'
+        grid_path = 'https://data.nas.nasa.gov/ecco/download_data.php?file=/eccodata/llc_4320/grid'
         mask_path = 'https://storage.googleapis.com/pangeo-ecco/llc/masks/llc_4320_masks.zarr/'
-        base_path = None
-        grid_path = None
         store = stores.NestedStore(fs, base_path=base_path, mask_path=mask_path,
                                    grid_path=grid_path, shrunk=True, join_char='/')
         super(ECCOPortalLLC4320Model, self).__init__(store)
@@ -256,6 +259,20 @@ class CRIOSPortalASTE270Model(ASTE270Model):
                                    shrunk=True, join_char='/')
 
         super(CRIOSPortalASTE270Model, self).__init__(store)
+
+class CorralPortalASTE270Model(ASTE270Model):
+
+    def __init__(self):
+        fs = _make_http_filesystem()
+        base_path = 'https://web.corral.tacc.utexas.edu/OceanProjects/ASTE/Release1/diags_binary_wet/'
+        grid_path = 'https://web.corral.tacc.utexas.edu/OceanProjects/ASTE/Release1/diags_binary_wet/grid/'
+        mask_path = 'https://web.corral.tacc.utexas.edu/OceanProjects/ASTE/Release1/diags_binary_wet/masks.zarr'
+
+        store = stores.NestedStore(fs, base_path=base_path, grid_path=grid_path,
+                                   mask_path=mask_path,
+                                   shrunk=True, join_char='/')
+
+        super(CorralPortalASTE270Model, self).__init__(store)
 
 class SverdrupASTE270Model(ASTE270Model):
 
