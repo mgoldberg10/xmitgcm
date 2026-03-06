@@ -146,7 +146,7 @@ class ASTE270Model(BaseLLCModel):
                 'oceQsw',   'oceSPDep', 'oceSPflx', 'oceSPtnd', 'oceSflux',
                 'oceTAUX',  'oceTAUY',  'sIceLoad',
                 'THETADR_snap', 'SALTDR_snap', 'ETAN_snap', 'SIarea_snap',
-                'SIheff_snap', 'SIhsnow_snap', 'SIceLoad_snap', 'PHIBOT_snap'
+                'SIheff_snap', 'SIhsnow_snap', 'sIceLoad_snap', 'PHIBOT_snap'
                 ]
 
     grid_varnames = ['AngleCS', 'AngleSN',   'DRC',       'DRF',       'DXC',
@@ -193,7 +193,7 @@ class ASTE270Model(BaseLLCModel):
            "oceTAUX":">f4", "oceTAUY":">f4", "sIceLoad":">f4",
            "THETADR_snap":">f8", "SALTDR_snap":">f8", "ETAN_snap":">f8",
            "SIarea_snap":">f8", "SIheff_snap":">f8", "SIhsnow_snap":">f8",
-           "SIceLoad_snap":">f8", "PHIBOT_snap":">f8"
+           "sIceLoad_snap":">f8", "PHIBOT_snap":">f8"
            }
 
 class ECCOPortalLLC2160Model(LLC2160Model):
