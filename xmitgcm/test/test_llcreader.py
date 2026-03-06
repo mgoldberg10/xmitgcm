@@ -274,8 +274,7 @@ def test_aste_tacc_snapshots(aste_model):
     if not isinstance(aste_model, llcreader.CRIOSTACCPortalASTE270Model):
         pytest.skip("Only testing TACC Portal snapshot variables here")
 
-    iters = [aste_model.iters[0]]
-    print(iters)
+    iters = aste_model.iters[0:2]
     varnames = ['THETADR_snap', 'ETAN_snap']
     ds = aste_model.get_dataset(varnames=varnames, iters=iters)
 
@@ -283,8 +282,8 @@ def test_aste_tacc_snapshots(aste_model):
         assert vn in ds.data_vars, f"{vn} not in dataset"
 
     nx = aste_model.nx
-    assert ds.THETADR_snap.sizes == {'time': 1, 'k': 50, 'face': 6, 'j': 270, 'i': 270}
-    assert ds.ETAN_snap.sizes == {'time': 1, 'face': 6, 'j': 270, 'i': 270}
+    assert ds.THETADR_snap.sizes == {'time': 2, 'k': 50, 'face': 6, 'j': 270, 'i': 270}
+    assert ds.ETAN_snap.sizes == {'time': 2, 'face': 6, 'j': 270, 'i': 270}
 
     for vn in varnames:
         val = ds[vn].isel(time=0).isel(i=0,j=0)
