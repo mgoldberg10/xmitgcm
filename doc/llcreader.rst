@@ -72,7 +72,8 @@ be used right away. These are
 - ``llcreader.ECCOPortalLLC4320Model``: LLC4320 accessed via ECCO data portal
 - ``llcreader.PleiadesLLC2160Model``: LLC2160 accessed on Pleaides filesystem
 - ``llcreader.PleiadesLLC4320Model``: LLC4320 accessed on Pleaides filesystem
-- ``llcreader.CRIOSPortalASTE270Model``: ASTE Release 1 accessed via AWS
+- ``llcreader.CRIOSAWSPortalASTE270Model``: ASTE Release 1 accessed via AWS
+- ``llcreader.CRIOSTACCPortalASTE270Model``: ASTE Release 1 accessed via TACC Corral
 - ``llcreader.SverdrupASTE270Model``: ASTE Release 1 accessed on Sverdrup filesystem at UT Austin
 
 Below are a few examples of how to use these.
@@ -303,11 +304,11 @@ Because of the high-performance Lustre filesystem on Pleiades, data throughput
 should be much higher than via the ECCO data portal.
 
 
-ASTE Release 1 on AWS
-~~~~~~~~~~~~~~~~~~~~~
+ASTE Release 1 on TACC
+~~~~~~~~~~~~~~~~~~~~~~
 
-Monthly time mean output from the Arctic Subpolar gyre sTate Estimate (ASTE) Release 1
-has been made available on AWS servers.
+Monthly time mean and snapshot output from the Arctic Subpolar gyre sTate Estimate (ASTE) Release 1
+have been made available on TACC's Corral. 
 ASTE is a medium-resolution data-constrained and dynamically consistent
 ocean-sea ice synthesis, spanning 2002-2017.
 Read more about this effort in [Nguyen et al, 2020].
@@ -335,7 +336,8 @@ and this changing coordinate has been taken into account during the time average
 
 Example usage to get temperature and salinity:
    
-    >>> aste = llcreader.CRIOSPortalASTE270Model()
+   
+    >>> aste = llcreader.CRIOSTACCPortalASTE270Model()
     >>> ds = aste.get_dataset(varnames=['THETA','SALT'])
     >>> ds
     <xarray.Dataset>
@@ -405,7 +407,10 @@ All available diagnostics are shown here:
     'SIsnPrcp', 'SItflux', 'SIuice', 'SIvice', 'SRELAX', 'TFLUX', 'THETA', 'TRELAX',
     'UVELMASS', 'VVELMASS', 'WSLTMASS', 'WTHMASS', 'WVELMASS', 'oceFWflx',
     'oceQnet', 'oceQsw', 'oceSPDep', 'oceSPflx', 'oceSPtnd', 'oceSflux', 'oceTAUX',
-    'oceTAUY', 'sIceLoad']
+    'oceTAUY', 'sIceLoad', 'sIceLoad', 'THETADR_snap', 'SALTDR_snap', 'ETAN_snap', 
+    'SIarea_snap', 'SIheff_snap', 'SIhsnow_snap', 'sIceLoad_snap', 'PHIBOT_snap']
+
+The monthly time mean output is also accessible via AWS using ``CRIOSAWSPortalASTE270Model``.
 
 Nguyen, A. T., H. Pillar, V. Ocana, A. Bigdeli, T. A. Smith, and P. Heimbach, 2020: The Arctic Subpolar gyre sTate Estimate (ASTE): Description and assessment of a data-constrained, dynamically consistent ocean-sea ice estimate for 2002-2017. J. Adv. Model. Earth Syst., submitted. https://doi.org/10.1002/essoar.10504669.3
 

@@ -208,11 +208,11 @@ def test_ecco_portal_latlon(llc_global_model):
 
 ########### ASTE Portal Tests ##################################################
 #@pytest.fixture(scope='module', params=['portal','sverdrup'])
-@pytest.fixture(scope='module', params=['crios', 'corral'])
+@pytest.fixture(scope='module', params=['aws', 'tacc'])
 def aste_model(request):
-    if request.param == 'crios':
-        return llcreader.CRIOSPortalASTE270Model()
-    elif request.param == 'corral':
+    if request.param == 'aws':
+        return llcreader.CRIOSAWSPortalASTE270Model()
+    elif request.param == 'tacc':
         return llcreader.CRIOSTACCPortalASTE270Model()
     else:
         if not os.path.exists('/scratch2/heimbach'):

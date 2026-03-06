@@ -247,7 +247,7 @@ class PleiadesLLC4320Model(LLC4320Model):
                                    shrunk=True,grid_path=grid_path)
         super(PleiadesLLC4320Model, self).__init__(store)
 
-class CRIOSPortalASTE270Model(ASTE270Model):
+class CRIOSAWSPortalASTE270Model(ASTE270Model):
 
     def __init__(self):
         fs = _make_http_filesystem()
@@ -258,7 +258,7 @@ class CRIOSPortalASTE270Model(ASTE270Model):
                                    mask_path=mask_path,
                                    shrunk=True, join_char='/')
 
-        super(CRIOSPortalASTE270Model, self).__init__(store)
+        super(CRIOSAWSPortalASTE270Model, self).__init__(store)
 
 class CRIOSTACCPortalASTE270Model(ASTE270Model):
 
