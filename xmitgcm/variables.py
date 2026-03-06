@@ -783,7 +783,7 @@ package_state_variables = {
         standard_name="SIhsnow_snap",
         long_name='snapshot snow thickness on sea ice',
         units='m')),
-    'SIceLoad_snap': dict(dims=['j', 'i'], attrs=dict(
+    'sIceLoad_snap': dict(dims=['j', 'i'], attrs=dict(
         standard_name="SIceLoad_snap",
         long_name='snapshot sea ice load (ice + snow)',
         units='kg m-2')),

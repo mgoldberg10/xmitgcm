@@ -260,7 +260,7 @@ class CRIOSPortalASTE270Model(ASTE270Model):
 
         super(CRIOSPortalASTE270Model, self).__init__(store)
 
-class CorralPortalASTE270Model(ASTE270Model):
+class CRIOSTACCPortalASTE270Model(ASTE270Model):
 
     def __init__(self):
         fs = _make_http_filesystem()
@@ -272,7 +272,7 @@ class CorralPortalASTE270Model(ASTE270Model):
                                    mask_path=mask_path,
                                    shrunk=True, join_char='/')
 
-        super(CorralPortalASTE270Model, self).__init__(store)
+        super(CRIOSTACCPortalASTE270Model, self).__init__(store)
 
 class SverdrupASTE270Model(ASTE270Model):
 
