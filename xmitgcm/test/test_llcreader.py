@@ -178,7 +178,7 @@ def test_ecco_portal_iterations(llc_global_model):
     assert not record
 
 
-@pytest.mark.slow
+#@pytest.mark.slow
 @pytest.mark.skip(reason="ECCO Data path is depracated")
 def test_ecco_portal_load(llc_global_model):
     # an expensive test because it actually loads data
@@ -251,7 +251,7 @@ def test_aste_portal_iterations(aste_model):
     assert not record
 
 
-#@pytest.mark.slow
+@pytest.mark.slow
 def test_aste_portal_load(aste_model):
     # an expensive test because it actually loads data
     iters = aste_model.iters[:3]
