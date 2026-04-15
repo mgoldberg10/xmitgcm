@@ -18,5 +18,6 @@ dependencies:
   - setuptools >=68
   - wheel
   - pip >=24
+  - libgfortran5
   - pip:
     - git+https://github.com/pydata/xarray.git
